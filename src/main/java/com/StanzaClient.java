@@ -30,8 +30,7 @@ public class StanzaClient {
   
   public Request.Builder getRequestBuilder() {
       requestBuilder = new Request.Builder();
-      requestBuilder.addHeader("Authorization", "Stanza " + Key)
-        .url("https://www.stanza.co/api/developer/");
+      requestBuilder.addHeader("Authorization", "Stanza " + Key);
         return requestBuilder;
     }
   public Response executeRequest(Request request){
