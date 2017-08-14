@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com;
+package com.models;
+import com.models.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
