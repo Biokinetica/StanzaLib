@@ -12,6 +12,8 @@ import com.models.CalendarResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import okhttp3.HttpUrl;
+import okhttp3.HttpUrl.Builder;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -28,10 +30,16 @@ public class Calendars extends Concept {
         super(client);
     }
     public CalendarResponse getCalendar(String shortName){
+        Builder url = new Builder();
+        url.scheme("https")
+                .host("www.stanza.co")
+                .addEncodedPathSegment("/api/developer/")
+                .addEncodedPathSegment("retrieve_calendar")
+                .addEncodedQueryParameter("calendarShortname", shortName);
+        
         Request.Builder request = client.getRequestBuilder()
                 .get()
-                .url("https://www.stanza.co/api/developer/retrieve_calendar")
-                .addHeader("calendarShortnam", shortName);
+                .url(url.build());
         Response Stanza = client.executeRequest(request.build());
             CalendarResponse calResponse = new CalendarResponse();
         try {

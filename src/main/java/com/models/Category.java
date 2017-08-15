@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 class Category {
     String name;
-    String categoryShorname;
+    String categoryShortname;
     String calendarShortname;
     boolean rolling;
     boolean geoEnabled;
@@ -27,12 +27,12 @@ class Category {
         this.name = name;
     }
 
-    public String getCategoryShorname() {
-        return categoryShorname;
+    public String getCategoryShortname() {
+        return categoryShortname;
     }
 
-    public void setCategoryShorname(String categoryShorname) {
-        this.categoryShorname = categoryShorname;
+    public void setCategoryShortname(String categoryShorname) {
+        this.categoryShortname = categoryShorname;
     }
 
     public String getCalendarShortname() {
