@@ -6,11 +6,15 @@
 package com;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.models.CalendarRequest;
 import com.models.CalendarResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -18,6 +22,8 @@ import okhttp3.Response;
  * @author Brenton
  */
 public class Calendars extends Concept {
+    public static final MediaType URL
+        = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     public Calendars(StanzaClient client){
         super(client);
     }
@@ -35,6 +41,23 @@ public class Calendars extends Concept {
             Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, e);
         }
         return calResponse;
+    }
+    
+    public CalendarResponse createCalendar(CalendarRequest cal){
+ 
+        try {
+            Request.Builder request = client.getRequestBuilder()
+                    .post(RequestBody.create(URL, mapper.writeValueAsString(cal)))
+                    .url("https://www.stanza.co/api/developer/retrieve_calendar");
+            Response calResponse = client.executeRequest(request.build());
+            
+            return mapper.readValue(calResponse.toString(), CalendarResponse.class);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }
