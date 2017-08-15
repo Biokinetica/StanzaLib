@@ -6,33 +6,61 @@
 package com.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 /**
  *
  * @author Brenton
  */
 public class CalendarRequest {
+    private Map<String,String> data;
+    private Map<String,String> headers;
     @JsonProperty("calendarShortname")
     String Shortname;
     @JsonProperty("name")
-   private String FullName;
-   private String background;
-   private String image;
-
-    public void setShortname(String Shortname) {
+    private String FullName;
+    private String background;
+    private String image;
+    private String method;
+    private String error;
+   
+   public CalendarRequest(String APIkey){
+       method = "POST";
+       data = new HashMap<String,String>();
+       headers = new HashMap<String,String>();
+       headers.put("Authorization", "Stanza "+APIkey);
+       
+   }   
+    public CalendarRequest build(){
+       
+       data.putIfAbsent("calendarShortname",Shortname);
+       data.putIfAbsent("name", FullName);
+       if(background != null)
+       data.putIfAbsent("background", background);
+       if(image != null)
+       data.put("image", image);
+       return this;
+    }
+   
+    public CalendarRequest setShortname(String Shortname) {
         this.Shortname = Shortname;
+        return this;
     }
 
-    public void setFullName(String FullName) {
+    public CalendarRequest setFullName(String FullName) {
         this.FullName = FullName;
+        return this;
     }
 
-    public void setBackground(String background) {
+    public CalendarRequest setBackground(String background) {
         this.background = background;
+        return this;
     }
 
-    public void setImage(String image) {
+    public CalendarRequest setImage(String image) {
         this.image = image;
+        return this;
     }
-   private String error;
 }

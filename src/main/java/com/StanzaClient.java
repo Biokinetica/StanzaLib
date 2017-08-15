@@ -20,6 +20,10 @@ import okhttp3.Response;
 public class StanzaClient {
     private Request.Builder requestBuilder;
     private String Key;
+
+    public String getKey() {
+        return Key;
+    }
     private ObjectMapper mapper;
     private OkHttpClient httpClient;
   public StanzaClient(String APIKey){

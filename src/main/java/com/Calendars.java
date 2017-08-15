@@ -22,8 +22,8 @@ import okhttp3.Response;
  * @author Brenton
  */
 public class Calendars extends Concept {
-    public static final MediaType URL
-        = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    public static final MediaType JSON
+        = MediaType.parse("application/json; charset=utf-8");
     public Calendars(StanzaClient client){
         super(client);
     }
@@ -47,8 +47,8 @@ public class Calendars extends Concept {
  
         try {
             Request.Builder request = client.getRequestBuilder()
-                    .post(RequestBody.create(URL, mapper.writeValueAsString(cal)))
-                    .url("https://www.stanza.co/api/developer/retrieve_calendar");
+                    .post(RequestBody.create(JSON, mapper.writeValueAsString(cal)))
+                    .url("https://www.stanza.co/api/developer/create_calendar");
             Response calResponse = client.executeRequest(request.build());
             
             return mapper.readValue(calResponse.toString(), CalendarResponse.class);
