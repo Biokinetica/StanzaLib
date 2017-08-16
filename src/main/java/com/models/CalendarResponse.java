@@ -5,7 +5,12 @@
  */
 package com.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  *
@@ -21,7 +26,40 @@ public class CalendarResponse {
    private String image;
    private List<Category> categories;
    private String error;
+   private Date updated;
+   private boolean official;
+   private boolean searchable;
+   private int count;
+   private Date created;
+   //private List<Map<String,String>> tags; I don't know what these will be
 
+    public Date getCreated() {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+df.setTimeZone(tz);
+df.format(created);
+        return created;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public boolean isSearchable() {
+        return searchable;
+    }
+
+    public Date getUpdated() {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+df.setTimeZone(tz);
+df.format(updated);
+        return updated;
+    }
 
     public String getError() {
         return error;

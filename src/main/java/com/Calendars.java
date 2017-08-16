@@ -9,11 +9,12 @@ package com;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.models.CalendarRequest;
 import com.models.CalendarResponse;
+import com.models.DeleteCalendar;
+import com.models.DeleteResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import okhttp3.HttpUrl;
-import okhttp3.HttpUrl.Builder;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -30,7 +31,7 @@ public class Calendars extends Concept {
         super(client);
     }
     public CalendarResponse getCalendar(String shortName){
-        Builder url = new Builder();
+        HttpUrl.Builder url = new HttpUrl.Builder();
         url.scheme("https")
                 .host("www.stanza.co")
                 .addEncodedPathSegment("/api/developer/")
@@ -59,7 +60,7 @@ public class Calendars extends Concept {
                     .url("https://www.stanza.co/api/developer/create_calendar");
             Response calResponse = client.executeRequest(request.build());
             
-            return mapper.readValue(calResponse.toString(), CalendarResponse.class);
+            return mapper.readValue(calResponse.body().string(), mapper.getTypeFactory().constructType(CalendarResponse.class));
         } catch (JsonProcessingException ex) {
             Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -68,4 +69,26 @@ public class Calendars extends Concept {
         return null;
     }
     
+    public DeleteResponse deleteCalendar(DeleteCalendar shortName){
+        
+        HttpUrl.Builder url = new HttpUrl.Builder();
+        url.scheme("https")
+                .host("www.stanza.co")
+                .addEncodedPathSegment("/api/developer/")
+                .addEncodedPathSegment("delete_calendar")
+                .addEncodedPathSegment(shortName.getShortname());
+        try {
+            Request.Builder request = client.getRequestBuilder()
+                    .delete(RequestBody.create(JSON, mapper.writeValueAsString(shortName)))
+                    .url(url.build());
+            Response delResponse = client.executeRequest(request.build());
+            
+            return mapper.readValue(delResponse.body().string(), mapper.getTypeFactory().constructType(DeleteResponse.class));
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Calendars.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
